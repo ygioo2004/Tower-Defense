@@ -10,8 +10,6 @@ public class Tank {
     private int defense;
     private Image tank;
     private ImageView tankImage;
-    private int imageX;
-    private int imageY;
     private int atkDamage;
     private int health;
     private int vertSpeed;
@@ -23,16 +21,20 @@ public class Tank {
      * @param id the ID of the tank
      */
     public Tank(int health, int defense, int id) {
-        tank = new Image("tank.png");
+        tank = new Image("shell.jpg");
         tankImage = new ImageView();
         tankImage.setImage(tank);
-        imageX = 0;
-        imageY = 0;
         atkDamage = 1;
         vertSpeed = 10;
         this.id = id;
         this.health = health;
         this.defense = defense;
+    }
+    public void setTankX(double x) {
+      tankImage.setX(x);
+    }
+    public void setTankY(double y) {
+      tankImage.setY(y);
     }
     /**
      * gets the current health of the tank

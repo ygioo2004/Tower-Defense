@@ -17,7 +17,7 @@ import javafx.util.Duration;
 public abstract class GameDriver {
 
     private Scene surfaceScene;
-    private Group sceneNodes;
+    private Group root;
     private static Timeline gameLoop;
     private final int framesPerSecond;
     private final String title;
@@ -123,7 +123,7 @@ public abstract class GameDriver {
      * @return the group of the game;
      */
     public Group getSceneNodes() {
-        return sceneNodes;
+        return root;
     }
     /**
      * Sets the Scene of the game
@@ -134,9 +134,9 @@ public abstract class GameDriver {
     }
     /**
      * Sets the Group for the game
-     * @param sceneNodes the Group to be set
+     * @param root the Group to be set
      */
-    protected void setSceneNodes(Group sceneNodes) {
-        this.sceneNodes = sceneNodes;
+    protected void setSceneNodes(Group root) {
+        this.root = root;
     }
 }

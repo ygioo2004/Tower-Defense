@@ -142,10 +142,10 @@ public class TDWorld extends GameDriver {
         int ind = 0;
         if (verifier == 0) {
             tankOne.getImage().localToScene(0, 0);
-            tankTwp.getImage().localToScene(0, 0);
+            tankTwo.getImage().localToScene(0, 0);
             tankThree.getImage().localToScene(0, 0);
-            tankOne.getImage().setTranslateX(305);
-            tankOne.getImage().setTranslateY(600);
+            tankOne.setTankX(50);
+            tankOne.setTankY(600);
             tankTwo.getImage().setTranslateX(305);
             tankTwo.getImage().setTranslateY(600);
             tankThree.getImage().setTranslateX(305);
@@ -161,10 +161,10 @@ public class TDWorld extends GameDriver {
         }
         if (!tankOne.isDead()) {
             if (time < 700) {
-                tankOne.getImage().setTranslateY(500 - time / 2);
-                //tankOne.getImage().setTranslateX(305);
+                tankOne.setTankY(500 - time / 2);
                 getSceneNodes().getChildren().add(tankOne.getImage());
-                tankOne.getImage().localToScene(0, 0);
+                //tankOne.getImage().setTranslateX(305);
+                //tankOne.getImage().localToScene(0, 0);
             } else {
                 homeBase.hurt(tankOne.getAtkDamage());
             }
@@ -173,7 +173,6 @@ public class TDWorld extends GameDriver {
             if (time > 200 && time < 1100) {
                 tankTwo.getImage().setTranslateY(700 - time / 2);
                 tankTwo.getImage().setTranslateX(305);
-                getSceneNodes().getChildren().add(tankTwo.getImage());
             } else if (time > 1100) {
                 homeBase.hurt(tankTwo.getAtkDamage());
             }
@@ -182,7 +181,6 @@ public class TDWorld extends GameDriver {
             if (time > 500 & time < 1460) {
                 tankThree.getImage().setTranslateY(900 - time / 2);
                 tankThree.getImage().setTranslateX(305);
-                getSceneNodes().getChildren().add(tankThree.getImage());
             } else if (time > 1460) {
                 homeBase.hurt(tankThree.getAtkDamage());
             }
