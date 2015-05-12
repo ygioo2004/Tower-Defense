@@ -8,7 +8,7 @@ public class ChrisEnemy {
     public ChrisEnemy(int hungerLevel, int speed) {
         this.hungerLevel = hungerLevel;
         this.speed = speed;
-        Image baseImage = new Image("Angry Chris.gif");
+        Image baseImage = new Image("Angry-Chris.gif");
         pic = new ImageView();
         pic.setImage(baseImage);
     }

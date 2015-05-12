@@ -20,11 +20,12 @@ import javafx.scene.control.Button;
 
 public class BurgerWorld extends Application {
     private int time = 0;
-    private Tank tankOne = new Tank(100, 3, 1);
+    private ChrisEnemy chrisOne = new ChrisEnemy(100, 10);
     private Timeline gameLoop;
     private Group root;
     private Stage stage;
     private Button playButton;
+    private boolean isButtonClicked = false;
     public static void main(String[] args) {
         launch(args);
     }
@@ -33,16 +34,9 @@ public class BurgerWorld extends Application {
         stage = primaryStage;
         initialize(primaryStage);
         stage.show();
-        if (playButton.isArmed()) {
-            gameLoop.play();
-            System.out.println(playButton.isArmed());
-        }
-        System.out.println(playButton.isArmed());
-
     }
     public void initialize(final Stage primaryStage) {
         primaryStage.setScene(this.titleScreen());
-        System.out.println(playButton.isArmed());
         //setupInput(primaryStage);
 
         gameLoop = new Timeline();
@@ -67,7 +61,10 @@ public class BurgerWorld extends Application {
         StackPane pane = new StackPane();
         pane.getChildren().add(background);
         playButton = new Button("Play Now!");
-        playButton.setOnAction(e -> stage.setScene(this.levelMapScene()));
+        playButton.setOnAction(e -> {
+            stage.setScene(this.levelMapScene());
+            gameLoop.play();
+        });
         pane.getChildren().add(playButton);
         Scene titleScreen = new Scene(pane);
         return titleScreen;
@@ -84,9 +81,10 @@ public class BurgerWorld extends Application {
     }
 
     public void waveOne() {
+        //root.getChildren().add(chrisOne.getImage());
         time++;
         System.out.println(time);
-        tankOne.getImage().setTranslateY(0 + time);
+        //.getImage().setTranslateY(0 + time);
 
     }
 }
