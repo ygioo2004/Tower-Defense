@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-
+import java.util.ArrayList;
 public class BurgerWorld extends Application {
     private int time = 0;
     private ChrisEnemy chrisOne = new ChrisEnemy(100, 10);
@@ -26,6 +26,8 @@ public class BurgerWorld extends Application {
     private Stage stage;
     private Button playButton;
     private boolean isButtonClicked = false;
+    private int wave = 1;
+    private SpriteManager spriteManage = new SpriteManager();
     public static void main(String[] args) {
         launch(args);
     }
@@ -45,12 +47,13 @@ public class BurgerWorld extends Application {
                 new KeyFrame(Duration.seconds(.01),
                 new EventHandler<ActionEvent>() {
                     public void handle(ActionEvent event) {
-                        //if (wave == 1) {
+                        if (wave == 1) {
                             waveOne();
-                        //}
-                        //else if (wave == 2) {
+
+                        }
+                        else if (wave == 2) {
                             //waveTwo();
-                        //}
+                        }
                     }
                 }));
     }
@@ -76,13 +79,28 @@ public class BurgerWorld extends Application {
         ImageView background = new ImageView();
         background.setImage(backgroundImg);
         root.getChildren().add(background);
+        if (wave == 1) {
+            spriteManage.addChris(4);
+            for (ChrisEnemy enemy: spriteManage
+                .getEnemyList()) {
+                enemy.setX(50);
+                enemy.setY(50);
+                root.getChildren().add(enemy.getImage());
+            }
+        }
         Scene mapScene = new Scene(root);
         return mapScene;
     }
 
     public void waveOne() {
-        //root.getChildren().add(chrisOne.getImage());
         time++;
+        ArrayList<ChrisEnemy> enemyList = spriteManage.getEnemyList();
+        for (int j = 0; j < enemyList.size(); j++) {
+            if (!enemyList.get(j).isDead()) {
+                enemyList.get(j).moveX();
+            }
+        }
+
         System.out.println(time);
         //.getImage().setTranslateY(0 + time);
 
