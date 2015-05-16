@@ -83,8 +83,8 @@ public class BurgerWorld extends Application {
             spriteManage.addChris(4);
             for (ChrisEnemy enemy: spriteManage
                 .getEnemyList()) {
-                enemy.setX(50);
-                enemy.setY(50);
+                enemy.setX(-200);
+                enemy.setY(-100);
                 root.getChildren().add(enemy.getImage());
             }
         }
@@ -96,8 +96,21 @@ public class BurgerWorld extends Application {
         time++;
         ArrayList<ChrisEnemy> enemyList = spriteManage.getEnemyList();
         for (int j = 0; j < enemyList.size(); j++) {
-            if (!enemyList.get(j).isDead()) {
-                enemyList.get(j).moveX();
+            System.out.println(enemyList.get(j).getImage().getTranslateX());
+            System.out.println(enemyList.get(j).getImage().getTranslateY());
+            if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
+                .getTranslateX() <= 155) {
+                enemyList.get(j).moveX(true);
+            } else if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
+                .getTranslateY() <= 200 && enemyList.get(j).getImage()
+                .getTranslateX() < 156) {
+                enemyList.get(j).moveY(true);
+            } else if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
+                .getTranslateX() < 350) {
+                enemyList.get(j).moveX(true);
+            } else if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
+                .getTranslateY() > -50) {
+                enemyList.get(j).moveY(false);
             }
         }
 

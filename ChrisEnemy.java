@@ -3,10 +3,10 @@ import javafx.scene.image.Image;
 
 public class ChrisEnemy {
     private int hungerLevel;
-    private int speed;
+    private double speed;
     private ImageView pic;
 
-    public ChrisEnemy(int hungerLevel, int speed) {
+    public ChrisEnemy(int hungerLevel, double speed) {
         this.hungerLevel = hungerLevel;
         this.speed = speed;
         Image baseImage = new Image("Angry-Chris.gif");
@@ -20,14 +20,22 @@ public class ChrisEnemy {
     public int getHungerLevel() {
         return hungerLevel;
     }
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
-    public void moveX() {
-        pic.setTranslateX(pic.getTranslateX() + speed);
+    public void moveX(boolean hor) {
+        if (hor == true) {
+            pic.setTranslateX(pic.getTranslateX() + speed);
+        } else {
+            pic.setTranslateX(pic.getTranslateX() - speed);
+        }
     }
-    public void moveY() {
-        pic.setTranslateY(pic.getTranslateY() + speed);
+    public void moveY(boolean vert) {
+        if (vert == true) {
+            pic.setTranslateY(pic.getTranslateY() + speed);
+        } else {
+            pic.setTranslateY(pic.getTranslateY() - speed);
+        }
     }
     public void setX(int x) {
         pic.setTranslateX(x);
