@@ -4,8 +4,8 @@ public class SpriteManager {
     private ArrayList<ChrisEnemy> enemyList = new ArrayList<>();
     private ArrayList<Tower> towerList = new ArrayList<>();
     public void addChris(int num) {
-        for (int i = 0; i <= num; i++) {
-            enemyList.add(new ChrisEnemy(100, 2));
+        for (int i = 0; i < num; i++) {
+            enemyList.add(new ChrisEnemy(100, .5));
         }
 
     }

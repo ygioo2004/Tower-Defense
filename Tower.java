@@ -27,8 +27,8 @@ public class Tower {
      * This method lets the tower attack a certain enemy
      * @param enemy the enemy to be attacked
      */
-    public void attack(Tank enemy) {
-        enemy.hurt(atkdmg);
+    public void attack(ChrisEnemy enemy) {
+        //enemy.hurt(atkdmg);
     }
     /**
      * gets the image of the tower object

@@ -79,14 +79,31 @@ public class BurgerWorld extends Application {
         ImageView background = new ImageView();
         background.setImage(backgroundImg);
         root.getChildren().add(background);
+        int spacing = 150;
+        int start = -300;
         if (wave == 1) {
-            spriteManage.addChris(4);
-            for (ChrisEnemy enemy: spriteManage
-                .getEnemyList()) {
-                enemy.setX(-200);
+            spriteManage.addChris(3);
+            ArrayList<ChrisEnemy> list = spriteManage.getEnemyList();
+            list.get(0).setX(-100);
+            list.get(1).setX(0);
+            list.get(2).setX(100);
+            root.getChildren().add(list.get(0).getImage());
+            root.getChildren().add(list.get(1).getImage());
+            root.getChildren().add(list.get(2).getImage());
+
+            /*for (ChrisEnemy enemy: list) {
+                System.out.println(spriteManage.getEnemyList().size());
+                enemy.setX(start);
                 enemy.setY(-100);
+                start =+ spacing;
                 root.getChildren().add(enemy.getImage());
             }
+            for (int h = 0; h < list.size(); h++) {
+                list.get(h).setX(start);
+                list.get(h).setY(-100);
+                start =- spacing;
+                root.getChildren().add(list.get(h).getImage());
+            }*/
         }
         Scene mapScene = new Scene(root);
         return mapScene;
@@ -94,19 +111,20 @@ public class BurgerWorld extends Application {
 
     public void waveOne() {
         time++;
+        System.out.println(spriteManage.getEnemyList().size());
         ArrayList<ChrisEnemy> enemyList = spriteManage.getEnemyList();
         for (int j = 0; j < enemyList.size(); j++) {
             System.out.println(enemyList.get(j).getImage().getTranslateX());
             System.out.println(enemyList.get(j).getImage().getTranslateY());
             if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
-                .getTranslateX() <= 155) {
+                .getTranslateX() <= 165) {
                 enemyList.get(j).moveX(true);
             } else if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
                 .getTranslateY() <= 200 && enemyList.get(j).getImage()
-                .getTranslateX() < 156) {
+                .getTranslateX() == 165.5) {
                 enemyList.get(j).moveY(true);
             } else if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
-                .getTranslateX() < 350) {
+                .getTranslateX() < 360) {
                 enemyList.get(j).moveX(true);
             } else if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
                 .getTranslateY() > -50) {
@@ -115,7 +133,5 @@ public class BurgerWorld extends Application {
         }
 
         System.out.println(time);
-        //.getImage().setTranslateY(0 + time);
-
     }
 }
