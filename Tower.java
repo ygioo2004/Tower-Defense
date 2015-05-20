@@ -10,15 +10,13 @@ public class Tower {
     private int atkdmg;
     private int range;
     private ImageView image;
-    private int id;
     /**
      * Constructs a Tower Object.
      * @param id the id of the tower
      */
-    public Tower(int id) {
+    public Tower() {
         atkdmg = 40;
         range = 150;
-        this.id = id;
         Image pic = new Image("launcher.png");
         image = new ImageView();
         image.setImage(pic);

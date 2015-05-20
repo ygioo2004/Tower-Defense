@@ -18,6 +18,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.util.ArrayList;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 public class BurgerWorld extends Application {
     private int time = 0;
     private ChrisEnemy chrisOne = new ChrisEnemy(100, 10);
@@ -39,7 +41,6 @@ public class BurgerWorld extends Application {
     }
     public void initialize(final Stage primaryStage) {
         primaryStage.setScene(this.titleScreen());
-        //setupInput(primaryStage);
 
         gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -66,6 +67,7 @@ public class BurgerWorld extends Application {
         playButton = new Button("Play Now!");
         playButton.setOnAction(e -> {
             stage.setScene(this.levelMapScene());
+            setupInput(stage);
             gameLoop.play();
         });
         pane.getChildren().add(playButton);
@@ -81,41 +83,40 @@ public class BurgerWorld extends Application {
         root.getChildren().add(background);
         int spacing = 150;
         int start = -300;
+
         if (wave == 1) {
             spriteManage.addChris(3);
             ArrayList<ChrisEnemy> list = spriteManage.getEnemyList();
-            list.get(0).setX(-100);
-            list.get(1).setX(0);
-            list.get(2).setX(100);
-            root.getChildren().add(list.get(0).getImage());
-            root.getChildren().add(list.get(1).getImage());
-            root.getChildren().add(list.get(2).getImage());
-
-            /*for (ChrisEnemy enemy: list) {
-                System.out.println(spriteManage.getEnemyList().size());
+            for (ChrisEnemy enemy: list) {
                 enemy.setX(start);
                 enemy.setY(-100);
-                start =+ spacing;
+                start += spacing;
                 root.getChildren().add(enemy.getImage());
             }
-            for (int h = 0; h < list.size(); h++) {
-                list.get(h).setX(start);
-                list.get(h).setY(-100);
-                start =- spacing;
-                root.getChildren().add(list.get(h).getImage());
-            }*/
         }
         Scene mapScene = new Scene(root);
         return mapScene;
     }
-
+    public void setupInput(Stage primaryStage) {
+        EventHandler place = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    Tower tower = new BurgerTower();
+                    tower.getImage().setTranslateX(e.getX() - 20);
+                    tower.getImage().setTranslateY(e.getY() - 20);
+                    root.getChildren().add(tower.getImage());
+                }
+            }
+        };
+        primaryStage.getScene().setOnMousePressed(place);
+    }
     public void waveOne() {
         time++;
-        System.out.println(spriteManage.getEnemyList().size());
         ArrayList<ChrisEnemy> enemyList = spriteManage.getEnemyList();
         for (int j = 0; j < enemyList.size(); j++) {
-            System.out.println(enemyList.get(j).getImage().getTranslateX());
-            System.out.println(enemyList.get(j).getImage().getTranslateY());
+        //    System.out.println(enemyList.get(j).getImage().getTranslateX());
+        //    System.out.println(enemyList.get(j).getImage().getTranslateY());
             if (!enemyList.get(j).isDead() && enemyList.get(j).getImage()
                 .getTranslateX() <= 165) {
                 enemyList.get(j).moveX(true);
@@ -131,7 +132,58 @@ public class BurgerWorld extends Application {
                 enemyList.get(j).moveY(false);
             }
         }
-
-        System.out.println(time);
+    }
+    public void fireTowers() {
+        ArrayList<Tower> towers = gameManager.getCurrentTowers();
+        ArrayList<Tank> tanks = gameManager.getTanks();
+        int counter = 0;
+        double towerX;
+        double towerY;
+        double tankX = 0;
+        double tankY = 0;
+        double newDist;
+        Tank target = new Tank(100, 0, 1);
+        if (!(towers.isEmpty())) {
+            for (int i = 0; i < towers.size() - 1; i++) {
+                Point2D posTower = towers.get(i).getImage().localToScene(0, 0);
+                ArtilleryShell shell = new ArtilleryShell();
+                towerX = posTower.getX();
+                towerY = posTower.getY();
+                shell.getShellImage().setTranslateX(towerX);
+                shell.getShellImage().setTranslateY(towerY);
+                getSceneNodes().getChildren().add(shell
+                    .getShellImage());
+                for (int j = 0; i < tanks.size() - 1; i++) {
+                    Point2D posTank = tanks.get(i).getImage()
+                        .localToScene(0, 0);
+                    tankX = posTank.getX();
+                    tankY = posTank.getY();
+                    if (j == 0) {
+                        shortX = Math.abs(tankX - towerX);
+                        shortY = Math.abs(tankY - towerY);
+                        dist = Math.sqrt((shortX * shortX)
+                            + (shortY * shortY));
+                    } else {
+                        shortX = Math.abs(tankX - towerX);
+                        shortY = Math.abs(tankY - towerY);
+                        newDist = Math.sqrt((shortX * shortX)
+                            + (shortY * shortY));
+                        if (newDist < dist) {
+                            target = tanks.get(i);
+                            dist = newDist;
+                        }
+                        System.out.println(dist);
+                    }
+                }
+                if (dist < 40) {
+                    towers.get(i).attack(target);
+                    if (target.isDead()) {
+                        gameManager.removeTank(target);
+                    }
+                    shell.getShellImage().setTranslateX(tankX);
+                    shell.getShellImage().setTranslateY(tankY);
+                }
+            }
+        }
     }
 }
